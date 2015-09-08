@@ -14,7 +14,7 @@ import java.util.Scanner;
  *
  * @author nicolaiharbo
  */
-public class ClientHandler extends Thread {
+public class ClientHandler implements Runnable {
 
     Socket socket;
     TCPServer server;
@@ -22,7 +22,6 @@ public class ClientHandler extends Thread {
     PrintWriter output;
     String message;
     String username;
-    
 
     ClientHandler(Socket socket, TCPServer server, String username) throws IOException {
         input = new Scanner(socket.getInputStream());
@@ -30,25 +29,53 @@ public class ClientHandler extends Thread {
         this.socket = socket;
         this.server = server;
         this.username = username;
-        this.message = message;
     }
-    
-    public void send(String message){
-        output.println(message);
-    }
-    
 
-    public void recieved() throws IOException {
-        input = new Scanner(socket.getInputStream());
-        message = input.nextLine();
+    public void send(String message) {
         output.println(message);
     }
 
     @Override
     public void run() {
-        while(true){
-        message = input.nextLine();
-        server.send(message);
+//        switch (command) {
+//            //Add user to userlist
+//            case "USER":
+//
+//                break;
+//
+//            //Close connection for client
+//            case "STOP":
+//                socket.close();
+//                break;
+//
+//                if (data.length > 2) {
+//                    msg = data[2];
+//                }
+//            //Sender besked til alle, hvis * er valgt som modtager.    
+//            case "MSG":
+//                if (value == "*") {
+//                    for (int i = 0; i < clientList.size(); i++) {
+//
+//                        clientList.get(i).send(msg);
+//
+//                    }
+//                }
+//
+//                break;
+//
+//            default:
+//                output.println("Not a valid command, try again!");
+//                break;
+//        }
+        while (true) {
+            message = input.nextLine();
+            
+            switch (message) {
+                //bla bla bla.. her skal stå hvad der skal ske, afhængig af input..
+            }
+            
+            server.sendAll(message);
+
         }
     }
 
