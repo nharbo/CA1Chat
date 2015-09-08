@@ -37,11 +37,11 @@ public class TCPServer {
                 Socket socket = serverSocket.accept(); //Important Blocking call
                 Logger.getLogger(TCPServer.class.getName()).log(Level.INFO, "Connected to a client");
                 //Her startes et nyt objekt af typen clientHandle, som tager en socket og en server som argumenter.
-                ClientHandler ch = new ClientHandler(socket, this);
+      //                ClientHandler ch = new ClientHandler(socket, this);
                 //Her tilføjes den nye client til listen over tilsluttede brugere.
-                clientList.add(ch);
+      //          clientList.add(ch);
                 //Her startes en ny tråd af typen clientHandle - dette kan gøres, fordi clienthandle extender Thread.
-                ch.start();
+      //      ch.start();
 
             } while (keepRunning);
         } catch (IOException ex) {
@@ -51,7 +51,7 @@ public class TCPServer {
     }
 
     private void stopServer() {
-
+        keepRunning = false;
     }
 
     private void removeClient() {
@@ -63,7 +63,7 @@ public class TCPServer {
     }
 
     public static void main(String[] args) {
-        // TODO code application logic here
+        new TCPServer().startServer();
     }
 
 }
