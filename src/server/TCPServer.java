@@ -5,17 +5,38 @@
  */
 package server;
 
+import java.net.ServerSocket;
+import java.net.Socket;
+
 /**
  *
  * @author nicolaiharbo
  */
 public class TCPServer {
 
-    /**
-     * @param args the command line arguments
-     */
+    private static Socket socket;
+    private static ServerSocket serverSocket;
+    
+    private void stopServer(){
+        
+    }
+    
+    private void startServer(){
+        
+    }
+    
+    private void removeClient(){
+        
+    }
+    
+    public void send(){
+        
+    }
+    
     public static void main(String[] args) {
         // TODO code application logic here
     }
+
+
     
 }
