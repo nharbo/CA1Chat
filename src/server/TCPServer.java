@@ -133,7 +133,9 @@ public class TCPServer {
     public void closeCon(ClientHandler client) throws IOException {
         //klienten fjernes fra listen, og en ny liste printes.
         clientList.remove(client);
+        System.out.println("Efter remove: "+clientList.size());
         sendClientList(printClientList());
+        
         //connection til socket lukkes.
         client.socket.close();
         

@@ -36,21 +36,19 @@ public class ClientHandler implements Runnable {
     public void sendAll(String sender, String message) {
         output.println("MSG#" + sender + "#" + message);
     }
-    
-    public void sendClientList(String list){
-        output.println("USERLIST#"+list);
+
+    public void sendClientList(String list) {
+        output.println("USERLIST#" + list);
     }
 
     public void sendSpecUser(String sender, ClientHandler client, String message) {
-        System.out.println("CH specUser message: "+message);
+        System.out.println("CH specUser message: " + message);
         client.output.println("MSG#" + sender + "#" + message);
     }
-    
 
     @Override
     public void run() {
 
-        
         while (true) {
             //Modtages fra TCPClients output
             userinput = input.nextLine();
@@ -58,15 +56,25 @@ public class ClientHandler implements Runnable {
             String value = "";
             String msg = "";
 
+            if (userinput.equals("STOP#")) {
+
+            }
+
             String[] data = userinput.split("#");
-            command = data[0];
-            value = data[1];
-            msg = data[2];
+
+            if (data.length > 2) {
+                command = data[0];
+                value = data[1];
+                msg = data[2];
+            } else {
+                command = data[0];
+            }
 
             switch (command) {
 
                 case "STOP": {
                     try {
+                        
                         server.closeCon(this);
                     } catch (IOException ex) {
                         Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,16 +91,15 @@ public class ClientHandler implements Runnable {
                         server.sendAll(this.username, msg);
 //                        for (int i = 0; i < clientList.size(); i++) {
 //                            clientList.get(i).send(msg);
-                    } else if (value.equals(server.getUser(value).username)){
+                    } else if (value.equals(server.getUser(value).username)) {
                         System.out.println("inde i single user");
                         ClientHandler singleUser = server.getUser(value);
                         output.println(msg);
                         server.sendSpecUser(this.username, singleUser, msg);
-                        
-                    } else if (value.contains(",")){
+
+                    } else if (value.contains(",")) {
                         String[] names = value.split(",");
-                        
-                        
+
                     }
                     break;
 
@@ -108,6 +115,5 @@ public class ClientHandler implements Runnable {
     public String toString() {
         return "ClientHandler: " + "username = " + username;
     }
-    
 
 }
