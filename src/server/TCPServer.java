@@ -104,10 +104,11 @@ public class TCPServer {
     public ClientHandler getUser(String user) {
 
         for (int i = 0; i < clientList.size(); i++) {
-            if (clientList.get(i).equals(user)) {
+            if (clientList.get(i).username.equals(user)) {
                 specUser = clientList.get(i);
             }
         }
+        System.out.println("SpecUser: " + specUser);
         return specUser;
     }
 

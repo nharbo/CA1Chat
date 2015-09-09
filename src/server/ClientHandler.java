@@ -76,9 +76,13 @@ public class ClientHandler implements Runnable {
                         server.sendAll(msg);
 //                        for (int i = 0; i < clientList.size(); i++) {
 //                            clientList.get(i).send(msg);
-                    } else {
-                        specUser = server.getUser(value);
+                    } else if (value.equals(server.getUser(value))){
+                        System.out.println("inde i single user");
                         specUser.sendSpecUser(msg);
+                    } else if (value.contains(",")){
+                        String[] names = value.split(",");
+                        
+                        
                     }
                     break;
 
@@ -89,5 +93,11 @@ public class ClientHandler implements Runnable {
 
         }
     }
+
+    @Override
+    public String toString() {
+        return "ClientHandler{" + "username=" + username + ", specUser=" + specUser + '}';
+    }
+    
 
 }
