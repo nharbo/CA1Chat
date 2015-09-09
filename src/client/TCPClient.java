@@ -8,6 +8,7 @@ package client;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Observable;
 import java.util.Scanner;
 import server.ClientHandler;
 
@@ -15,16 +16,16 @@ import server.ClientHandler;
  *
  * @author nicolaiharbo
  */
-public class TCPClient implements Runnable {
+public class TCPClient extends Observable implements Runnable {
 
     Socket socket;
     private Scanner input;
     private PrintWriter output;
     String message = "";
 
-    public TCPClient(Socket socket) {
-        this.socket = socket;
-    }
+//    public TCPClient(Socket socket) {
+//        this.socket = socket;
+//    }
 
     public void connect(String ip, int port) throws IOException {
 
@@ -44,7 +45,10 @@ public class TCPClient implements Runnable {
 
     @Override
     public void run() {
-        
+        while(true){
+         setChanged();
+         notifyObservers(message);
+        }
     }
 
 }
