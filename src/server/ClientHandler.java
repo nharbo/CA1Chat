@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,7 +22,7 @@ public class ClientHandler implements Runnable {
     TCPServer server;
     Scanner input;
     PrintWriter output;
-    String message;
+    String userinput;
     String username;
 
     ClientHandler(Socket socket, TCPServer server, String username) throws IOException {
@@ -31,52 +33,60 @@ public class ClientHandler implements Runnable {
         this.username = username;
     }
 
-    public void send(String message) {
+    public void sendAll(String message) {
         output.println(message);
+    }
+    
+    public void sendSpecUser(){
+        
     }
 
     @Override
     public void run() {
-//        switch (command) {
-//            //Add user to userlist
-//            case "USER":
-//
-//                break;
-//
-//            //Close connection for client
-//            case "STOP":
-//                socket.close();
-//                break;
-//
-//                if (data.length > 2) {
-//                    msg = data[2];
-//                }
-//            //Sender besked til alle, hvis * er valgt som modtager.    
-//            case "MSG":
-//                if (value == "*") {
-//                    for (int i = 0; i < clientList.size(); i++) {
-//
-//                        clientList.get(i).send(msg);
-//
-//                    }
-//                }
-//
-//                break;
-//
-//            default:
-//                output.println("Not a valid command, try again!");
-//                break;
-//        }
+
         while (true) {
-            message = input.nextLine();
-            
-            switch (message) {
-                //bla bla bla.. her skal stå hvad der skal ske, afhængig af input..
+            userinput = input.nextLine();
+            String command = "";
+            String value = "";
+            String msg = "";
+
+            String[] data = userinput.split("#");
+            data[0] = command;
+            data[1] = value;
+            data[2] = msg;
+
+            switch (command) {
+
+                case "STOP": {
+                    try {
+                        socket.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                break;
+
+//                    if (data.length > 2) {
+//                        msg = data[2];
+//                    }
+                    
+                //Sender besked til alle, hvis * er valgt som modtager.    
+                case "MSG":
+                    if (value == "*") {
+                        server.sendAll(msg);
+//                        for (int i = 0; i < clientList.size(); i++) {
+//                            clientList.get(i).send(msg);
+                    } else if (server.getUser(value) != null) {
+                        socket = server.getUser(value);
+                        
+                    }
+                    break;
+
+                default:
+                    output.println("Not a valid command, try again!");
+                    break;
             }
-            
-            server.sendAll(message);
 
         }
     }
-
 }

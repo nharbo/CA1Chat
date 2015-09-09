@@ -39,10 +39,9 @@ public class TCPClient extends Observable implements Runnable {
     }
 
     public void send(String message) {
-        
         output.println(message);
     }
-
+    
     @Override
     public void run() {
         while(true){
