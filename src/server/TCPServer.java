@@ -51,12 +51,11 @@ public class TCPServer {
                 output.println("Please enter USER#yourname");
 
                 userinput = input.nextLine(); //Important Blocking call 
-                
 
                 //Hvis STOP-command, luk connection til klient
                 if (userinput.equals("STOP#")) {
                     closeClient();
-
+                    
                     //Hvis USER-command, fanges username og gemmes ned i et clienthandler objekt, sammen
                     // med socket og serverforbindelsen.
                     // - Derefter startes en tråd af socketobjektet.
@@ -70,6 +69,7 @@ public class TCPServer {
 
                     Thread t1 = new Thread(ch);
                     t1.start();
+                    output.println(printClientList());
 
                     System.out.println("Tråd startet");
                     System.out.println("Ny bruger: " + ch.username);
@@ -91,14 +91,22 @@ public class TCPServer {
         ch.socket.close();
     }
 
-    public void sendAll(String msg) {
+    public void sendAll(String sender, String msg) {
         for (ClientHandler ch : clientList) {
-            ch.sendAll(msg);
+            ch.sendAll(sender, msg);
         }
     }
 
-    public void sendSpecUser(ClientHandler client, String msg) {
-        ch.sendSpecUser(client, msg);
+    public String printClientList() {
+        String finalList = "";
+        for (ClientHandler ch : clientList) {
+            finalList = finalList + ch.username + ",";
+        }
+        return finalList;
+    }
+
+    public void sendSpecUser(String sender, ClientHandler client, String msg) {
+        ch.sendSpecUser(sender, client, msg);
     }
 
     public ClientHandler getUser(String user) {
@@ -114,6 +122,12 @@ public class TCPServer {
 
     public static void main(String[] args) {
         new TCPServer().startServer();
+    }
+
+    void closeCon(Socket client) throws IOException {
+        client.close();
+        clientList.remove(client);
+        output.println(printClientList());
     }
 
 }

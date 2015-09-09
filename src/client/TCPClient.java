@@ -37,6 +37,7 @@ public class TCPClient extends Observable implements Runnable {
 
     }
 
+    // Sender til clienthandlerens output.
     public void send(String message) {
         output.println(message);
     }

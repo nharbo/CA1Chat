@@ -33,19 +33,22 @@ public class ClientHandler implements Runnable {
         this.username = username;
     }
 
-    public void sendAll(String message) {
-        output.println(message);
+    public void sendAll(String sender, String message) {
+        output.println("MSG#" + sender + "#" + message);
     }
 
-    public void sendSpecUser(ClientHandler client, String message) {
+    public void sendSpecUser(String sender, ClientHandler client, String message) {
         System.out.println("CH specUser message: "+message);
-        client.output.println(message);
+        client.output.println("MSG#" + sender + "#" + message);
     }
+    
 
     @Override
     public void run() {
 
+        
         while (true) {
+            //Modtages fra TCPClients output
             userinput = input.nextLine();
             String command = "";
             String value = "";
@@ -60,7 +63,7 @@ public class ClientHandler implements Runnable {
 
                 case "STOP": {
                     try {
-                        socket.close();
+                        server.closeCon(this.socket);
                     } catch (IOException ex) {
                         Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -73,14 +76,14 @@ public class ClientHandler implements Runnable {
                 //Sender besked til alle, hvis * er valgt som modtager.    
                 case "MSG":
                     if (value.equals("*")) {
-                        server.sendAll(msg);
+                        server.sendAll(this.username, msg);
 //                        for (int i = 0; i < clientList.size(); i++) {
 //                            clientList.get(i).send(msg);
                     } else if (value.equals(server.getUser(value).username)){
                         System.out.println("inde i single user");
                         ClientHandler singleUser = server.getUser(value);
-                        
-                        server.sendSpecUser(singleUser, msg);
+                        output.println(msg);
+                        server.sendSpecUser(this.username, singleUser, msg);
                         
                     } else if (value.contains(",")){
                         String[] names = value.split(",");
