@@ -38,8 +38,8 @@ public class ClientHandler implements Runnable {
         output.println(message);
     }
 
-    public void sendSpecUser(String message) {
-        output.println(message);
+    public void sendSpecUser(ClientHandler client, String message) {
+        client.output.println(message);
     }
 
     @Override
@@ -76,9 +76,11 @@ public class ClientHandler implements Runnable {
                         server.sendAll(msg);
 //                        for (int i = 0; i < clientList.size(); i++) {
 //                            clientList.get(i).send(msg);
-                    } else if (value.equals(server.getUser(value))){
+                    } else if (value.equals(server.getUser(value).username)){
                         System.out.println("inde i single user");
-                        specUser.sendSpecUser(msg);
+                        ClientHandler singleUser = server.getUser(value);
+                        
+                        server.sendSpecUser(singleUser, msg);
                     } else if (value.contains(",")){
                         String[] names = value.split(",");
                         

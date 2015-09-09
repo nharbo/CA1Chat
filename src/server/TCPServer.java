@@ -97,8 +97,8 @@ public class TCPServer {
         }
     }
 
-    public void sendSpecUser() {
-
+    public void sendSpecUser(ClientHandler client, String msg) {
+        ch.sendSpecUser(client, message);
     }
 
     public ClientHandler getUser(String user) {
