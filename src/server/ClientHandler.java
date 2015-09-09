@@ -36,6 +36,10 @@ public class ClientHandler implements Runnable {
     public void sendAll(String sender, String message) {
         output.println("MSG#" + sender + "#" + message);
     }
+    
+    public void sendClientList(String list){
+        output.println("USERLIST#"+list);
+    }
 
     public void sendSpecUser(String sender, ClientHandler client, String message) {
         System.out.println("CH specUser message: "+message);
@@ -63,7 +67,7 @@ public class ClientHandler implements Runnable {
 
                 case "STOP": {
                     try {
-                        server.closeCon(this.socket);
+                        server.closeCon(this);
                     } catch (IOException ex) {
                         Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
                     }

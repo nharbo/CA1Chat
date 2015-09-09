@@ -99,7 +99,9 @@ public class GUI extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
-        //"MSG#*#" + 
+        if(SendArea.getText().equals("STOP#")){
+            TCPC.deleteObserver(this);
+        }
         TCPC.send(SendArea.getText());
         SendArea.setText("");
         

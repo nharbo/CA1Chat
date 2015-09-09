@@ -55,7 +55,7 @@ public class TCPServer {
                 //Hvis STOP-command, luk connection til klient
                 if (userinput.equals("STOP#")) {
                     closeClient();
-                    
+
                     //Hvis USER-command, fanges username og gemmes ned i et clienthandler objekt, sammen
                     // med socket og serverforbindelsen.
                     // - Derefter startes en tråd af socketobjektet.
@@ -69,7 +69,7 @@ public class TCPServer {
 
                     Thread t1 = new Thread(ch);
                     t1.start();
-                    output.println(printClientList());
+                    sendClientList(printClientList());
 
                     System.out.println("Tråd startet");
                     System.out.println("Ny bruger: " + ch.username);
@@ -94,6 +94,12 @@ public class TCPServer {
     public void sendAll(String sender, String msg) {
         for (ClientHandler ch : clientList) {
             ch.sendAll(sender, msg);
+        }
+    }
+    
+    public void sendClientList(String list){
+        for (ClientHandler ch : clientList){
+            ch.sendClientList(list);
         }
     }
 
@@ -124,10 +130,14 @@ public class TCPServer {
         new TCPServer().startServer();
     }
 
-    void closeCon(Socket client) throws IOException {
-        client.close();
+    public void closeCon(ClientHandler client) throws IOException {
+        //klienten fjernes fra listen, og en ny liste printes.
         clientList.remove(client);
-        output.println(printClientList());
+        sendClientList(printClientList());
+        //connection til socket lukkes.
+        client.socket.close();
+        
+
     }
 
 }
