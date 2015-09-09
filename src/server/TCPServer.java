@@ -50,7 +50,8 @@ public class TCPServer {
                 output = new PrintWriter(socket.getOutputStream(), true);
                 output.println("Please enter USER#yourname");
 
-                userinput = input.nextLine(); //Important Blocking call               
+                userinput = input.nextLine(); //Important Blocking call 
+                
 
                 //Hvis STOP-command, luk connection til klient
                 if (userinput.equals("STOP#")) {

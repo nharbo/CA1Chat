@@ -24,6 +24,7 @@ public class ClientHandler implements Runnable {
     PrintWriter output;
     String userinput;
     String username;
+    ClientHandler specUser;
 
     ClientHandler(Socket socket, TCPServer server, String username) throws IOException {
         input = new Scanner(socket.getInputStream());
@@ -37,9 +38,10 @@ public class ClientHandler implements Runnable {
         output.println(message);
     }
     
-    public void sendSpecUser(){
-        
+    public void sendSpecUser(String message){
+        output.println(message);
     }
+    
 
     @Override
     public void run() {
@@ -76,9 +78,9 @@ public class ClientHandler implements Runnable {
                         server.sendAll(msg);
 //                        for (int i = 0; i < clientList.size(); i++) {
 //                            clientList.get(i).send(msg);
-                    } else if (server.getUser(value) != null) {
-                        socket = server.getUser(value);
-                        
+                    } else {
+                        specUser = server.getUser(value);
+                        specUser.sendSpecUser(msg);
                     }
                     break;
 
@@ -89,4 +91,6 @@ public class ClientHandler implements Runnable {
 
         }
     }
+
+
 }
