@@ -38,10 +38,9 @@ public class TCPClient implements Runnable {
     }
 
     public void send(String message) {
-        
         output.println(message);
     }
-
+    
     @Override
     public void run() {
         

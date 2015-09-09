@@ -31,6 +31,7 @@ public class TCPServer {
     String userinput = "";
     String username = "random";
     ClientHandler ch;
+    ClientHandler specUser;
 
     private void startServer() {
         String ip = "localhost";
@@ -49,18 +50,15 @@ public class TCPServer {
                 output = new PrintWriter(socket.getOutputStream(), true);
                 output.println("Please enter USER#yourname");
 
-                userinput = input.nextLine(); //Important Blocking call
-                String command = "";
-                String value = "";
-                String msg = "";
+                userinput = input.nextLine(); //Important Blocking call               
 
                 //Hvis STOP-command, luk connection til klient
                 if (userinput.equals("STOP#")) {
                     closeClient();
 
-                //Hvis USER-command, fanges username og gemmes ned i et clienthandler objekt, sammen
-                // med socket og serverforbindelsen.
-                // - Derefter startes en tråd af socketobjektet.
+                    //Hvis USER-command, fanges username og gemmes ned i et clienthandler objekt, sammen
+                    // med socket og serverforbindelsen.
+                    // - Derefter startes en tråd af socketobjektet.
                 } else if (userinput.contains("USER#")) {
                     String[] data = userinput.split("#");
                     username = data[1];
@@ -94,8 +92,22 @@ public class TCPServer {
 
     public void sendAll(String msg) {
         for (ClientHandler ch : clientList) {
-            ch.send(msg);
+            ch.sendAll(msg);
         }
+    }
+
+    public void sendSpecUser() {
+
+    }
+
+    public ClientHandler getUser(String user) {
+
+        for (int i = 0; i < clientList.size(); i++) {
+            if (clientList.get(i).equals(user)) {
+                specUser = clientList.get(i);
+            }
+        }
+        return specUser;
     }
 
     public static void main(String[] args) {
