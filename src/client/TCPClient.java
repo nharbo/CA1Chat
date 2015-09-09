@@ -26,7 +26,6 @@ public class TCPClient extends Observable implements Runnable {
 //    public TCPClient(Socket socket) {
 //        this.socket = socket;
 //    }
-
     public void connect(String ip, int port) throws IOException {
 
         socket = new Socket(ip, port);
@@ -41,12 +40,13 @@ public class TCPClient extends Observable implements Runnable {
     public void send(String message) {
         output.println(message);
     }
-    
+
     @Override
     public void run() {
-        while(true){
-         setChanged();
-         notifyObservers(message);
+        while (true) {
+            message = input.nextLine();
+            setChanged();
+            notifyObservers(message);
         }
     }
 

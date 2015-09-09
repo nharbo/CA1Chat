@@ -6,8 +6,11 @@
 package view;
 
 import client.TCPClient;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,14 +21,16 @@ public class GUI extends javax.swing.JFrame implements Observer {
     /**
      * Creates new form GUI
      */
-    public GUI() {
+    public GUI() throws IOException {
         initComponents();
+
+        
         
         TCPC = new TCPClient();
-        
+        TCPC.connect("localhost", 4321);
         TCPC.addObserver(this);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,7 +99,7 @@ public class GUI extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
-        TCPC.send(SendArea.getText());
+        TCPC.send("MSG#*#" + SendArea.getText());
         SendArea.setText("");
     }//GEN-LAST:event_SendButtonActionPerformed
 
@@ -129,7 +134,11 @@ public class GUI extends javax.swing.JFrame implements Observer {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new GUI().setVisible(true);
+                try {
+                    new GUI().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -145,6 +154,6 @@ public class GUI extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
-       ChatArea.append((String) o1);
+       ChatArea.append((String) o1 + "\n");
     }
 }
