@@ -24,7 +24,6 @@ public class ClientHandler implements Runnable {
     PrintWriter output;
     String userinput;
     String username;
-    ClientHandler specUser;
 
     ClientHandler(Socket socket, TCPServer server, String username) throws IOException {
         input = new Scanner(socket.getInputStream());
@@ -39,6 +38,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void sendSpecUser(ClientHandler client, String message) {
+        System.out.println("CH specUser message: "+message);
         client.output.println(message);
     }
 
@@ -81,6 +81,7 @@ public class ClientHandler implements Runnable {
                         ClientHandler singleUser = server.getUser(value);
                         
                         server.sendSpecUser(singleUser, msg);
+                        
                     } else if (value.contains(",")){
                         String[] names = value.split(",");
                         
@@ -98,7 +99,7 @@ public class ClientHandler implements Runnable {
 
     @Override
     public String toString() {
-        return "ClientHandler{" + "username=" + username + ", specUser=" + specUser + '}';
+        return "ClientHandler: " + "username = " + username;
     }
     
 

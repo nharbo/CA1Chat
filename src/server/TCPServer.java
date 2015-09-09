@@ -98,7 +98,7 @@ public class TCPServer {
     }
 
     public void sendSpecUser(ClientHandler client, String msg) {
-        ch.sendSpecUser(client, message);
+        ch.sendSpecUser(client, msg);
     }
 
     public ClientHandler getUser(String user) {
@@ -108,7 +108,7 @@ public class TCPServer {
                 specUser = clientList.get(i);
             }
         }
-        System.out.println("SpecUser: " + specUser);
+        System.out.println(specUser);
         return specUser;
     }
 
