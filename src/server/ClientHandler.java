@@ -37,11 +37,10 @@ public class ClientHandler implements Runnable {
     public void sendAll(String message) {
         output.println(message);
     }
-    
-    public void sendSpecUser(String message){
+
+    public void sendSpecUser(String message) {
         output.println(message);
     }
-    
 
     @Override
     public void run() {
@@ -53,9 +52,9 @@ public class ClientHandler implements Runnable {
             String msg = "";
 
             String[] data = userinput.split("#");
-            data[0] = command;
-            data[1] = value;
-            data[2] = msg;
+            command = data[0];
+            value = data[1];
+            msg = data[2];
 
             switch (command) {
 
@@ -71,10 +70,9 @@ public class ClientHandler implements Runnable {
 //                    if (data.length > 2) {
 //                        msg = data[2];
 //                    }
-                    
                 //Sender besked til alle, hvis * er valgt som modtager.    
                 case "MSG":
-                    if (value == "*") {
+                    if (value.equals("*")) {
                         server.sendAll(msg);
 //                        for (int i = 0; i < clientList.size(); i++) {
 //                            clientList.get(i).send(msg);
@@ -91,6 +89,5 @@ public class ClientHandler implements Runnable {
 
         }
     }
-
 
 }
