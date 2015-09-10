@@ -108,6 +108,7 @@ public class TCPServer {
         for (ClientHandler ch : clientList) {
             finalList = finalList + ch.username + ",";
         }
+        finalList = finalList.substring(0, finalList.length()-1);
         return finalList;
     }
 
