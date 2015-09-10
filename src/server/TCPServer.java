@@ -25,7 +25,7 @@ public class TCPServer {
     private static Socket socket;
     private static ServerSocket serverSocket;
     ArrayList<ClientHandler> clientList = new ArrayList();
-    private boolean keepRunning = true;
+    private static boolean keepRunning = true;
     private static final Properties properties = log.Logger.initProperties("server.properties");
     Scanner input;
     PrintWriter output;
@@ -85,7 +85,7 @@ public class TCPServer {
 
     }
 
-    private void stopServer() {
+    public static void stopServer() {
         keepRunning = false;
     }
 

@@ -158,13 +158,24 @@ public class GUI extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
+        String userList;
         if (o1.toString().contains("USERLIST#")) {
-            String[] commaSplit = o1.toString().split(",");
-            String userList = "";
-            for (int i = 0; i < commaSplit.length; i++) {
-                userList = commaSplit[i];         
+            
+            String [] hashSplit = o1.toString().split("#");
+            userList = hashSplit[1];
+            String [] user = userList.split(",");
+            for (int i = 0; i < user.length; i++) {
+                OnlineList.append(user[i] + "\n");
             }
-            OnlineList.append((String)o1);
+            
+            
+//            OnlineList.setText((String)o1);
+//            String[] user = o1.toString().split(",");
+//            String userList = "";
+//            for (int i = 0; i < user.length; i++) {
+//                userList = user[i];     
+//                OnlineList.setText((String)o1 + "\n");
+//            }     
         } else {
             ChatArea.append((String) o1 + "\n");
         }
