@@ -95,10 +95,12 @@ public class ClientHandler implements Runnable {
                         String[] names = value.split(",");
                         //HER!!
                         for (int i = 0; i < names.length; i++) {
-                            if (server.clientList.contains(names[i])) {
-                                server.sendSpecUser(this.username, server.clientList.get(i), msg);
+                            Object tempuser = server.getUser(names[i]);
+                            if (server.getUser(names[i]) == tempuser) {
+                                String tempUserName = names[i];
+                                server.sendSpecUser(this.username, server.getUser(tempUserName), msg);
                             } else {
-                                output.println("Unknown command. Try again!");
+                                output.println("Unknown user - try again!");
                             }
 
                         }
