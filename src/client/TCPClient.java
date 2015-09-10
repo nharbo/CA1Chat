@@ -50,7 +50,7 @@ public class TCPClient extends Observable implements Runnable {
         }
     }
     
-    public String received () {
+    public String received (String message) {
         return message;
     }
 
