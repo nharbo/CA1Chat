@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package client;
 
 import client.TCPClient;
 import java.io.IOException;
