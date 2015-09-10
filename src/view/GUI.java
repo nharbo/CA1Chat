@@ -158,6 +158,11 @@ public class GUI extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
-       ChatArea.append((String) o1 + "\n");
+        if (o1.toString().contains("USERLIST#")) {
+            OnlineList.setText(o1 + "\n");
+        } else {
+            ChatArea.append((String) o1 + "\n");
+        }
+       
     }
 }
