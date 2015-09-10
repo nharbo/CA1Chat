@@ -5,7 +5,6 @@
  */
 package client;
 
-import client.TCPClient;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
