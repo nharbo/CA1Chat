@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -40,8 +41,11 @@ public class GUI extends javax.swing.JFrame implements Observer {
 
         String username = JOptionPane.showInputDialog("Whats your name?");
         TCPC.send("USER#" + username);
+        connectedAs.setText("Connected as: " + username);
 
         OnlineList.setModel(listModel);
+//        list = new JList(OnlineList);
+//        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
     }
 
@@ -61,6 +65,7 @@ public class GUI extends javax.swing.JFrame implements Observer {
         jButton1 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         OnlineList = new javax.swing.JList();
+        connectedAs = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +89,8 @@ public class GUI extends javax.swing.JFrame implements Observer {
 
         jScrollPane3.setViewportView(OnlineList);
 
+        connectedAs.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -95,27 +102,30 @@ public class GUI extends javax.swing.JFrame implements Observer {
                     .addComponent(SendArea))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(connectedAs)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(connectedAs))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
@@ -129,7 +139,17 @@ public class GUI extends javax.swing.JFrame implements Observer {
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
         if (SendArea.getText().equals("STOP#")) {
             TCPC.deleteObserver(this);
+            this.dispose();
         }
+
+//        if (list.isSelectionEmpty()) {
+//            
+//            TCPC.send("MSG#*#" + SendArea.getText());
+//        } else {
+//            String selectedUser = (String) list.getSelectedValue();
+//            System.out.println("SELECTED: " + selectedUser);
+//            TCPC.send("MSG#" + selectedUser + "#" + SendArea.getText());
+//        }
 
         TCPC.send(SendArea.getText());
         SendArea.setText("");
@@ -139,6 +159,7 @@ public class GUI extends javax.swing.JFrame implements Observer {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         TCPC.send("STOP#");
+        TCPC.deleteObserver(this);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -187,6 +208,7 @@ public class GUI extends javax.swing.JFrame implements Observer {
     private javax.swing.JList OnlineList;
     private javax.swing.JTextField SendArea;
     private javax.swing.JButton SendButton;
+    private javax.swing.JLabel connectedAs;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;

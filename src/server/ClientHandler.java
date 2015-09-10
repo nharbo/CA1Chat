@@ -82,10 +82,11 @@ public class ClientHandler implements Runnable {
 //                    }
                 //Sender besked til alle, hvis * er valgt som modtager.    
                 case "MSG":
+                    //Sender til alle
                     if (value.equals("*")) {
                         server.sendAll(this.username, msg);
-//                        for (int i = 0; i < clientList.size(); i++) {
-//                            clientList.get(i).send(msg);
+
+                    //Sender til flere, sepereret med komma.
                     } else if (value.contains(",")) {
                         String[] names = value.split(",");
                         
@@ -96,24 +97,26 @@ public class ClientHandler implements Runnable {
                                 if (server.getUser(names[i]) == tempuser) {
                                     String tempUserName = names[i];
                                     server.sendSpecUser(this.username, server.getUser(tempUserName), msg);
-                                    output.println(msg);
+                                    output.println("MSG#" + this.username + "#" + msg);
                                 }
                             } else {
-                                output.println(names[i] + " is unknown user - try again!");
+                                output.println(names[i] + " is an unknown user - try again!");
                             }
 
                         }
+                        
+                    //Sender til en specifik bruger.
                     } else if (value.equals(server.getUser(value).username)) {
                         ClientHandler singleUser = server.getUser(value);
-                        output.println(msg);
+                        output.println("MSG#" + singleUser.username + "#" + msg);
                         server.sendSpecUser(this.username, singleUser, msg);      
                     } else {
-                        
                         output.println("Unknown user. Try again");
                     }
                     
                     break;
 
+                    //Hvis ingen af ovenstående opfyldes.
                 default:
                     output.println("Not a valid command, try again!");
                     break;
