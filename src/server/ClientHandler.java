@@ -34,7 +34,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void sendAll(String sender, String message) {
-        output.println("MSG#" + sender + "#" + message);
+        output.println(sender + " says: " + message);
     }
 
     public void sendClientList(String list) {
@@ -42,8 +42,8 @@ public class ClientHandler implements Runnable {
     }
 
     public void sendSpecUser(String sender, ClientHandler client, String message) {
-        System.out.println("CH specUser message: " + message);
-        client.output.println("MSG#" + sender + "#" + message);
+        //client.output.println("MSG#" + sender + "#" + message);
+        client.output.println("private message from: " + sender + " -> " + message);
     }
 
     @Override
@@ -55,10 +55,6 @@ public class ClientHandler implements Runnable {
             String command = "";
             String value = "";
             String msg = "";
-
-            if (userinput.equals("STOP#")) {
-
-            }
 
             String[] data = userinput.split("#");
 
@@ -93,7 +89,7 @@ public class ClientHandler implements Runnable {
 //                            clientList.get(i).send(msg);
                     } else if (value.contains(",")) {
                         String[] names = value.split(",");
-                        //HER!!
+                        
                         for (int i = 0; i < names.length; i++) {
                             Object tempuser = server.getUser(names[i]);
                             if (server.getUser(names[i]).username.equals(names[i])) {

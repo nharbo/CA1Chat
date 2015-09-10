@@ -50,7 +50,7 @@ public class TCPServer {
                 Logger.getLogger(TCPServer.class.getName()).log(Level.INFO, "Connected to a client");
                 input = new Scanner(socket.getInputStream());
                 output = new PrintWriter(socket.getOutputStream(), true);
-                output.println("Please enter USER#yourname");
+                output.println("Welcome to CA1 chatzervice ;-)");
 
                 userinput = input.nextLine(); //Important Blocking call 
 
@@ -67,14 +67,11 @@ public class TCPServer {
                     Logger.getLogger(TCPServer.class.getName()).log(Level.INFO, username + " connected!");
                     ch = new ClientHandler(socket, this, username);
                     clientList.add(ch);
-                    System.out.println(clientList.size());
 
                     Thread t1 = new Thread(ch);
                     t1.start();
                     sendClientList(printClientList());
 
-                    System.out.println("Tråd startet");
-                    System.out.println("Ny bruger: " + ch.username);
 
                 }
 

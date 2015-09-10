@@ -11,6 +11,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +22,8 @@ import java.util.logging.Logger;
 public class GUI extends javax.swing.JFrame implements Observer {
 
     TCPClient TCPC;
+    DefaultListModel listModel;
+    JList list;
 
     /**
      * Creates new form GUI
@@ -26,9 +31,17 @@ public class GUI extends javax.swing.JFrame implements Observer {
     public GUI() throws IOException {
         initComponents();
 
+        listModel = new DefaultListModel();
+
+        
         TCPC = new TCPClient();
         TCPC.connect("localhost", 4321);
         TCPC.addObserver(this);
+        String username = JOptionPane.showInputDialog("Whats your name?");
+        TCPC.send("USER#" + username);
+        
+        OnlineList.setModel(listModel);
+
     }
 
     /**
@@ -44,8 +57,9 @@ public class GUI extends javax.swing.JFrame implements Observer {
         ChatArea = new javax.swing.JTextArea();
         SendArea = new javax.swing.JTextField();
         SendButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        OnlineList = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        OnlineList = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,9 +74,14 @@ public class GUI extends javax.swing.JFrame implements Observer {
             }
         });
 
-        OnlineList.setColumns(20);
-        OnlineList.setRows(5);
-        jScrollPane2.setViewportView(OnlineList);
+        jButton1.setText("Disconnect");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jScrollPane3.setViewportView(OnlineList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,23 +90,31 @@ public class GUI extends javax.swing.JFrame implements Observer {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(SendArea)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                    .addComponent(SendArea))
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(SendButton, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
@@ -102,10 +129,16 @@ public class GUI extends javax.swing.JFrame implements Observer {
         if (SendArea.getText().equals("STOP#")) {
             TCPC.deleteObserver(this);
         }
-        TCPC.send(SendArea.getText());
-        SendArea.setText("");
+
+            TCPC.send(SendArea.getText());
+            SendArea.setText("");
+        
 
     }//GEN-LAST:event_SendButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        TCPC.send("STOP#");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,11 +182,12 @@ public class GUI extends javax.swing.JFrame implements Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea ChatArea;
-    private javax.swing.JTextArea OnlineList;
+    private javax.swing.JList OnlineList;
     private javax.swing.JTextField SendArea;
     private javax.swing.JButton SendButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -161,12 +195,14 @@ public class GUI extends javax.swing.JFrame implements Observer {
         String userList;
 
         if (o1.toString().contains("USERLIST#")) {
-            OnlineList.setText("");
+            //OnlineList.setText("");
+            listModel.clear();
             String[] hashSplit = o1.toString().split("#");
             userList = hashSplit[1];
             String[] user = userList.split(",");
             for (int i = 0; i < user.length; i++) {
-                OnlineList.append(user[i] + "\n");
+//                OnlineList.append(user[i] + "\n");
+                listModel.addElement(user[i]);
             }
 
         } else {
