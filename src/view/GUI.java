@@ -17,20 +17,20 @@ import java.util.logging.Logger;
  * @author nicolaiharbo
  */
 public class GUI extends javax.swing.JFrame implements Observer {
+
     TCPClient TCPC;
+
     /**
      * Creates new form GUI
      */
     public GUI() throws IOException {
         initComponents();
 
-        
-        
         TCPC = new TCPClient();
         TCPC.connect("localhost", 4321);
         TCPC.addObserver(this);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -99,12 +99,12 @@ public class GUI extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SendButtonActionPerformed
-        if(SendArea.getText().equals("STOP#")){
+        if (SendArea.getText().equals("STOP#")) {
             TCPC.deleteObserver(this);
         }
         TCPC.send(SendArea.getText());
         SendArea.setText("");
-        
+
     }//GEN-LAST:event_SendButtonActionPerformed
 
     /**
@@ -159,10 +159,13 @@ public class GUI extends javax.swing.JFrame implements Observer {
     @Override
     public void update(Observable o, Object o1) {
         if (o1.toString().contains("USERLIST#")) {
-            OnlineList.setText(o1 + "\n");
+            String[] commaSplit = o1.toString().split(",");
+            for (int i = 0; i < commaSplit.length; i++) {
+                OnlineList.setText(o1 + "\n");
+            }
         } else {
             ChatArea.append((String) o1 + "\n");
         }
-       
+
     }
 }
