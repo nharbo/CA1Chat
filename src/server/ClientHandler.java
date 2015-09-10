@@ -101,6 +101,7 @@ public class ClientHandler implements Runnable {
                                 if (server.getUser(names[i]) == tempuser) {
                                     String tempUserName = names[i];
                                     server.sendSpecUser(this.username, server.getUser(tempUserName), msg);
+                                    output.println(msg);
                                 }
                             } else {
                                 output.println(names[i] + " is unknown user - try again!");
@@ -110,9 +111,12 @@ public class ClientHandler implements Runnable {
                     } else if (value.equals(server.getUser(value).username)) {
                         ClientHandler singleUser = server.getUser(value);
                         output.println(msg);
-                        server.sendSpecUser(this.username, singleUser, msg);
-
+                        server.sendSpecUser(this.username, singleUser, msg);      
+                    } else {
+                        
+                        output.println("Unknown user. Try again");
                     }
+                    
                     break;
 
                 default:
