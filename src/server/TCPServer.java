@@ -36,8 +36,8 @@ public class TCPServer {
     ClientHandler specUser;
 
     private void startServer() {
-        String ip = "localhost";
-        int port = 4321;
+        int port = Integer.parseInt(properties.getProperty("port"));
+        String ip = properties.getProperty("serverIp");
 
         Logger.getLogger(TCPServer.class.getName()).log(Level.INFO, "Server started. Listening on: " + port + ", bound to: " + ip);
 
