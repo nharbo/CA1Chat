@@ -96,11 +96,14 @@ public class ClientHandler implements Runnable {
                         //HER!!
                         for (int i = 0; i < names.length; i++) {
                             Object tempuser = server.getUser(names[i]);
-                            if (server.getUser(names[i]) == tempuser) {
-                                String tempUserName = names[i];
-                                server.sendSpecUser(this.username, server.getUser(tempUserName), msg);
+                            if (server.getUser(names[i]).username.equals(names[i])) {
+
+                                if (server.getUser(names[i]) == tempuser) {
+                                    String tempUserName = names[i];
+                                    server.sendSpecUser(this.username, server.getUser(tempUserName), msg);
+                                }
                             } else {
-                                output.println("Unknown user - try again!");
+                                output.println(names[i] + " is unknown user - try again!");
                             }
 
                         }
