@@ -99,7 +99,7 @@ public class TCPServer {
     
     public void sendClientList(String list){
         for (ClientHandler ch : clientList){
-            ch.sendClientList(list);
+            ch.sendClientList("USERLIST#" + list);
         }
     }
 

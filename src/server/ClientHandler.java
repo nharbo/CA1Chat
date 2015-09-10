@@ -38,11 +38,10 @@ public class ClientHandler implements Runnable {
     }
 
     public void sendClientList(String list) {
-        output.println("USERLIST#" + list);
+        output.println(list);
     }
 
     public void sendSpecUser(String sender, ClientHandler client, String message) {
-        //client.output.println("MSG#" + sender + "#" + message);
         client.output.println("private message from: " + sender + " -> " + message);
     }
 

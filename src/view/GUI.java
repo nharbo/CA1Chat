@@ -32,14 +32,16 @@ public class GUI extends javax.swing.JFrame implements Observer {
         initComponents();
 
         listModel = new DefaultListModel();
+        String ip = JOptionPane.showInputDialog("indtast ip! ok?");
+        String port = JOptionPane.showInputDialog("og stik mig en port!");
 
-        
         TCPC = new TCPClient();
-        TCPC.connect("localhost", 4321);
+        TCPC.connect(ip, Integer.parseInt(port));
         TCPC.addObserver(this);
+
         String username = JOptionPane.showInputDialog("Whats your name?");
         TCPC.send("USER#" + username);
-        
+
         OnlineList.setModel(listModel);
 
     }
@@ -130,14 +132,15 @@ public class GUI extends javax.swing.JFrame implements Observer {
             TCPC.deleteObserver(this);
         }
 
-            TCPC.send(SendArea.getText());
-            SendArea.setText("");
-        
+        TCPC.send(SendArea.getText());
+        SendArea.setText("");
+
 
     }//GEN-LAST:event_SendButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         TCPC.send("STOP#");
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
