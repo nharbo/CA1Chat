@@ -11,6 +11,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,6 +26,7 @@ public class TCPServer {
     private static ServerSocket serverSocket;
     ArrayList<ClientHandler> clientList = new ArrayList();
     private boolean keepRunning = true;
+    private static final Properties properties = log.Logger.initProperties("server.properties");
     Scanner input;
     PrintWriter output;
     String message;
@@ -62,7 +64,7 @@ public class TCPServer {
                 } else if (userinput.contains("USER#")) {
                     String[] data = userinput.split("#");
                     username = data[1];
-
+                    Logger.getLogger(TCPServer.class.getName()).log(Level.INFO, username + " connected!");
                     ch = new ClientHandler(socket, this, username);
                     clientList.add(ch);
                     System.out.println(clientList.size());
@@ -95,6 +97,7 @@ public class TCPServer {
         for (ClientHandler ch : clientList) {
             ch.sendAll(sender, msg);
         }
+        Logger.getLogger(TCPServer.class.getName()).log(Level.INFO, sender + ": " + msg);
     }
     
     public void sendClientList(String list){
@@ -113,6 +116,7 @@ public class TCPServer {
 
     public void sendSpecUser(String sender, ClientHandler client, String msg) {
         ch.sendSpecUser(sender, client, msg);
+        Logger.getLogger(TCPServer.class.getName()).log(Level.INFO, sender + " sent: " + msg + " to: " + client.username);
     }
 
     public ClientHandler getUser(String user) {
@@ -127,7 +131,14 @@ public class TCPServer {
     }
 
     public static void main(String[] args) {
-        new TCPServer().startServer();
+        try {
+            String logFile = properties.getProperty("logFile");
+            log.Logger.setLogFile(logFile, TCPServer.class.getName());
+            new TCPServer().startServer();
+        } finally {
+            log.Logger.closeLogger(TCPServer.class.getName());
+        }
+        
     }
 
     public void closeCon(ClientHandler client) throws IOException {
@@ -135,7 +146,7 @@ public class TCPServer {
         clientList.remove(client);
         System.out.println("Efter remove: "+clientList.size());
         sendClientList(printClientList());
-        
+        Logger.getLogger(TCPServer.class.getName()).log(Level.INFO, client.username + " disconnected from server!");
         //connection til socket lukkes.
         client.socket.close();
         

@@ -74,7 +74,7 @@ public class ClientHandler implements Runnable {
 
                 case "STOP": {
                     try {
-                        
+
                         server.closeCon(this);
                     } catch (IOException ex) {
                         Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -91,14 +91,21 @@ public class ClientHandler implements Runnable {
                         server.sendAll(this.username, msg);
 //                        for (int i = 0; i < clientList.size(); i++) {
 //                            clientList.get(i).send(msg);
+                    } else if (value.contains(",")) {
+                        String[] names = value.split(",");
+                        //HER!!
+                        for (int i = 0; i < names.length; i++) {
+                            if (server.clientList.contains(names[i])) {
+                                server.sendSpecUser(this.username, server.clientList.get(i), msg);
+                            } else {
+                                output.println("Unknown command. Try again!");
+                            }
+
+                        }
                     } else if (value.equals(server.getUser(value).username)) {
-                        System.out.println("inde i single user");
                         ClientHandler singleUser = server.getUser(value);
                         output.println(msg);
                         server.sendSpecUser(this.username, singleUser, msg);
-
-                    } else if (value.contains(",")) {
-                        String[] names = value.split(",");
 
                     }
                     break;

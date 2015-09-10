@@ -1,0 +1,16 @@
+Sep 10, 2015 9:24:02 AM server.TCPServer startServer
+INFO: Server started. Listening on: 4321, bound to: localhost
+Sep 10, 2015 9:24:10 AM server.TCPServer startServer
+INFO: Connected to a client
+Sep 10, 2015 9:24:25 AM server.TCPServer startServer
+INFO: flo connected!
+Sep 10, 2015 9:24:25 AM server.TCPServer startServer
+INFO: Connected to a client
+Sep 10, 2015 9:24:31 AM server.TCPServer startServer
+INFO: hiller connected!
+Sep 10, 2015 9:24:31 AM server.TCPServer startServer
+INFO: Connected to a client
+Sep 10, 2015 9:24:35 AM server.TCPServer startServer
+INFO: nico connected!
+Sep 10, 2015 9:25:05 AM server.TCPServer sendSpecUser
+INFO: nico sent: hej to: flo
