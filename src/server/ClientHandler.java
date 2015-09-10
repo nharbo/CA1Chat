@@ -34,7 +34,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void sendAll(String sender, String message) {
-        output.println(sender + " says: " + message);
+        output.println("MSG#" + sender + "#" + message);
     }
 
     public void sendClientList(String list) {
@@ -42,7 +42,7 @@ public class ClientHandler implements Runnable {
     }
 
     public void sendSpecUser(String sender, ClientHandler client, String message) {
-        client.output.println("private message from: " + sender + " -> " + message);
+        client.output.println("MSG#" + sender + "#" + message);
     }
 
     @Override

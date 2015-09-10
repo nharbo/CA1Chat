@@ -50,7 +50,7 @@ public class TCPServer {
                 Logger.getLogger(TCPServer.class.getName()).log(Level.INFO, "Connected to a client");
                 input = new Scanner(socket.getInputStream());
                 output = new PrintWriter(socket.getOutputStream(), true);
-                output.println("Welcome to CA1 chatzervice ;-)");
+               // output.println("Welcome to CA1 chatzervice ;-)");
 
                 userinput = input.nextLine(); //Important Blocking call 
 
