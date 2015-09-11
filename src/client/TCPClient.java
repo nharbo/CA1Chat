@@ -36,7 +36,7 @@ public class TCPClient extends Observable implements Runnable {
 
     }
 
-    // Sender til clienthandlerens input.
+    // Sender til clienthandlerens output.
     public void send(String message) {
         output.println(message);
     }
@@ -45,34 +45,12 @@ public class TCPClient extends Observable implements Runnable {
     public void run() {
         while (true) {
             message = input.nextLine();
-            System.out.println(message);
-
-            if (message.contains("USERLIST#")) {
-                setChanged();
-                notifyObservers(message);
-            } else if (message.contains("MSG#")) {
-
-                String command = "";
-                String sender = "";
-                String msg = "";
-
-                String[] data = message.split("#");
-
-                command = data[0];
-                sender = data[1];
-                msg = data[2];
-
-                setChanged();
-                notifyObservers(sender + " says: " + msg);
-
-            } else {
-                setChanged();
-                notifyObservers("Unknown command, try again!");
-            }
+            setChanged();
+            notifyObservers(message);
         }
     }
-
-    public String received(String message) {
+    
+    public String received (String message) {
         return message;
     }
 

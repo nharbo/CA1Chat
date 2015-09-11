@@ -114,6 +114,7 @@ public class TCPServer {
 
     public void sendSpecUser(String sender, ClientHandler client, String msg) {
         ch.sendSpecUser(sender, client, msg);
+        System.out.println("SPEC USER I SERVER");
         Logger.getLogger(TCPServer.class.getName()).log(Level.INFO, sender + " sent: " + msg + " to: " + client.username);
     }
 

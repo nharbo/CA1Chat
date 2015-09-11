@@ -143,6 +143,8 @@ public class GUI extends javax.swing.JFrame implements Observer {
         }
 
 //        if (list.isSelectionEmpty()) {
+        
+        
 //            
 //            TCPC.send("MSG#*#" + SendArea.getText());
 //        } else {
