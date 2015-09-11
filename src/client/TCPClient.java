@@ -50,21 +50,24 @@ public class TCPClient extends Observable implements Runnable {
             if (message.contains("USERLIST#")) {
                 setChanged();
                 notifyObservers(message);
+            } else if (message.contains("MSG#")) {
+
+                String command = "";
+                String sender = "";
+                String msg = "";
+
+                String[] data = message.split("#");
+
+                command = data[0];
+                sender = data[1];
+                msg = data[2];
+
+                setChanged();
+                notifyObservers(sender + " says: " + msg);
+
             } else {
-
-            String command = "";
-            String sender = "";
-            String msg = "";
-
-            String[] data = message.split("#");
-
-            command = data[0];
-            sender = data[1];
-            msg = data[2];
-
-            setChanged();
-            notifyObservers(sender + " says: " + msg);
-            
+                setChanged();
+                notifyObservers("Unknown command, try again!");
             }
         }
     }
